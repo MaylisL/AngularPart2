@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CocktailService } from '../cocktail.service';
 import { Cocktail } from '../models/cocktail.model';
 
@@ -7,7 +7,13 @@ import { Cocktail } from '../models/cocktail.model';
   templateUrl: './cocktail-list.component.html',
   styleUrls: ['./cocktail-list.component.scss']
 })
-export class CocktailListComponent {
-  cocktails: Cocktail[] = this.cocktailService.getCocktails()
+export class CocktailListComponent implements OnInit {
+  cocktails: Cocktail[] = [];
   constructor(public cocktailService: CocktailService) { }
+
+  ngOnInit(): void {
+    this.cocktailService.getCocktails().subscribe((dataFromJson) => {
+      this.cocktails = dataFromJson;
+    })
+  }
 }
